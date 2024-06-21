@@ -31,7 +31,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userLogin;
+        final String username;
 
         // Проверка получения JWT
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -40,12 +40,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         // Получение JWT
         jwt = authHeader.substring(7);
-        userLogin = jwtService.extractLogin(jwt);
+        username = jwtService.extractUsername(jwt);
 
-        // Пользователь имеет login и ещё не авторизован
-        if (userLogin != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Получение пользователя из базы данных
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userLogin);
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // Получение пользователя из базе данных
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if(jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
                         null, userDetails.getAuthorities());

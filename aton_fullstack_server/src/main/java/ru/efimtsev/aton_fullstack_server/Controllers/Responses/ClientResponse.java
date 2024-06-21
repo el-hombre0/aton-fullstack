@@ -1,38 +1,27 @@
-package ru.efimtsev.aton_fullstack_server.Models;
+package ru.efimtsev.aton_fullstack_server.Controllers.Responses;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.efimtsev.aton_fullstack_server.Models.Status;
+import ru.efimtsev.aton_fullstack_server.Models.User;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 @Builder
-@Entity
-@Table(name = "clients")
-@NoArgsConstructor
 @AllArgsConstructor
-public class Client {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+@NoArgsConstructor
+public class ClientResponse {
     private Long id;
-
     private String firstName;
     private String middleName;
     private String lastName;
     private LocalDate birthday;
     private Long inn;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
-
 //    private String responsibleFullName;
-
-    @Enumerated(EnumType.STRING)
+    private User user;
     private Status status;
-
 }

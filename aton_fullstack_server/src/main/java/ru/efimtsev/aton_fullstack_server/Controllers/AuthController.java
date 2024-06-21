@@ -7,7 +7,6 @@ import ru.efimtsev.aton_fullstack_server.Controllers.Requests.AuthenticationRequ
 import ru.efimtsev.aton_fullstack_server.Controllers.Requests.RegisterRequest;
 import ru.efimtsev.aton_fullstack_server.Controllers.Responses.AuthenticationResponse;
 import ru.efimtsev.aton_fullstack_server.Controllers.Services.AuthenticationService;
-import ru.efimtsev.aton_fullstack_server.Respositories.UserRepository;
 
 @RestController
 @RequiredArgsConstructor

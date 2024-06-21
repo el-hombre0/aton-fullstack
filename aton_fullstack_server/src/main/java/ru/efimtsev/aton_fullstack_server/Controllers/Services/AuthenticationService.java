@@ -20,24 +20,29 @@ public class AuthenticationService {
     private final  AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder().fullName(request.getFullName()).login(request.getLogin()).password(passwordEncoder.encode(request.getPassword())).build();
+        var user = User.builder()
+                .fullName(request.getFullName())
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .fullName(user.getFullName())
-                .login(user.getLogin())
+                .username(user.getUsername())
                 .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
-        var user = userRepository.findByLogin(request.getLogin()).orElseThrow();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),
+                request.getPassword()));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .fullName(user.getFullName())
-                .login(user.getLogin())
+                .username(user.getUsername())
                 .build();
     }
 }

@@ -19,11 +19,11 @@ import ru.efimtsev.aton_fullstack_server.Respositories.UserRepository;
 @RequiredArgsConstructor
 public class AppConfig {
 
-    private final UserRepository userRepo;
+    private final UserRepository repository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return login -> userRepo.findByLogin(login)
+        return username -> repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
     }
@@ -54,7 +54,7 @@ public class AppConfig {
     }
 
     /**
-     * Шифрование пароля
+     * Метод шифрования пароля
      *
      * @return Шифровальщик пароля
      */

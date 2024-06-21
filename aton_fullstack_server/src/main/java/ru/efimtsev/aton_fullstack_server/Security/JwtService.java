@@ -20,7 +20,7 @@ public class JwtService {
 
     private static final String SECRET_KEY = "3ad8b5b5789b962171888191003e241a4b0633d689b9aa4634f22dc234c80579";
 
-    public String extractLogin(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -68,11 +68,11 @@ public class JwtService {
      *
      * @param token       Токен
      * @param userDetails Пользовательские данные
-     * @return Соответствие логина у токена и у userDetails
+     * @return Соответствие username токена и userDetails
      */
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String login = extractLogin(token);
-        return login.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     /**
@@ -105,4 +105,3 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
-
